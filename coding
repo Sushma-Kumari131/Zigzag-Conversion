@@ -1,17 +1,29 @@
-public String convert(String s, int nRows) {
-    char[] c = s.toCharArray();
-    int len = c.length;
-    StringBuffer[] sb = new StringBuffer[nRows];
-    for (int i = 0; i < sb.length; i++) sb[i] = new StringBuffer();
-    
-    int i = 0;
-    while (i < len) {
-        for (int idx = 0; idx < nRows && i < len; idx++) // vertically down
-            sb[idx].append(c[i++]);
-        for (int idx = nRows-2; idx >= 1 && i < len; idx--) // obliquely up
-            sb[idx].append(c[i++]);
+class Solution {
+    public String convert(String s, int numRows) {
+        StringBuilder result = new StringBuilder();
+        
+        if (numRows == 1){
+            return s;
+        }
+        
+        for (int i = 0; i < numRows; i++){
+            int k = i;
+            int m = 2*numRows - 2 *(i+1);
+            
+            if (i == numRows - 1){
+                m = 2*numRows - 2;
+            }
+            
+            while (k < s.length()){
+                result.append(s.charAt(k));
+                k += m ;
+                
+                if (m != 2*numRows - 2){
+                    m = Math.abs(2*numRows - m - 2);
+                }
+            }
+        }
+        
+        return result.toString();
     }
-    for (int idx = 1; idx < sb.length; idx++)
-        sb[0].append(sb[idx]);
-    return sb[0].toString();
 }
